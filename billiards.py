@@ -3,7 +3,7 @@ from tkinter import CENTER
 import pygame
 import sys
 from settings import Settings
-from pockets import Pockets
+from cue_ball import CueBall
 
 class BilliardsGame:
     def __init__(self):
@@ -24,7 +24,7 @@ class BilliardsGame:
         self.table_rect = pygame.Rect(self.border_thickness,
             self.border_thickness, self.table_width, self.table_height)
         
-
+        self.cue_ball = CueBall(self)
 
         pygame.display.set_caption("Chilliard Billiard")
 
@@ -42,6 +42,8 @@ class BilliardsGame:
             self.draw_side_pockets()
             self.draw_table()
             self.draw_pockets()
+            self.cue_ball.update_cue_ball()
+            self.cue_ball.draw_cue_ball()
             pygame.display.flip()
                 
     def draw_pockets(self):
@@ -66,4 +68,5 @@ if __name__ == "__main__":
     billiards = BilliardsGame()
     billiards.__init__()
 
-#TODO update pocket locations
+# TODO: Add cue ball
+# TODO: Add oof and related words when cue ball is sunk
