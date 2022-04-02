@@ -17,7 +17,7 @@ class BilliardsGame:
             self.screen_height))
         self.screen_rect = self.screen.get_rect()
 
-        self.border_thickness = 50
+        self.border_thickness = self.settings.border_thickness
 
         self.table_width = self.screen_width - 2 *self.border_thickness
         self.table_height = self.screen_height - 2 * self.border_thickness
@@ -42,6 +42,7 @@ class BilliardsGame:
             self.draw_side_pockets()
             self.draw_table()
             self.draw_pockets()
+            self.cue_ball.detect_wall_collision()
             self.cue_ball.update_cue_ball()
             self.cue_ball.draw_cue_ball()
             pygame.display.flip()
