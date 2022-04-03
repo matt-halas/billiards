@@ -4,6 +4,8 @@ import pygame
 import sys
 from settings import Settings
 from cue_ball import CueBall
+from cue import Cue
+
 
 class BilliardsGame:
     def __init__(self):
@@ -25,6 +27,7 @@ class BilliardsGame:
             self.border_thickness, self.table_width, self.table_height)
         
         self.cue_ball = CueBall(self)
+        self.cue = Cue(self)
 
         pygame.display.set_caption("Chilliard Billiard")
 
@@ -45,6 +48,7 @@ class BilliardsGame:
             self.cue_ball.detect_wall_collision()
             self.cue_ball.update_cue_ball()
             self.cue_ball.draw_cue_ball()
+            self.cue.draw_cue(self.cue_ball)
             pygame.display.flip()
                 
     def draw_pockets(self):

@@ -17,6 +17,11 @@ class CueBall:
     def update_cue_ball(self):
         self.x += self.x_vel
         self.y += self.y_vel
+        self.x_vel *= 0.9995
+        self.y_vel *= 0.9995
+        if self.x_vel**2 + self.y_vel**2 < 0.0001:
+            self.x_vel = 0
+            self.y_vel = 0
     
     def detect_wall_collision(self):
         if (self.x + self.radius >= self.screen_rect.right - self.settings.border_thickness) or \
