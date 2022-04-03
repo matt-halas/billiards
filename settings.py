@@ -3,3 +3,4 @@ class Settings:
         self.screen_width = 800
         self.screen_height = 400
         self.border_thickness = 50
+        self.pocket_radius = 40
