@@ -31,11 +31,11 @@ class Ball:
         #Wall collision for bottom
         if (self.y + self.radius >= self.screen_rect.bottom - self.settings.border_thickness) and \
             ((self.x > self.screen_rect.centerx + self.settings.pocket_radius) or (self.x < self.screen_rect.centerx - self.settings.pocket_radius)):
-            self.y_vel *= -1
+            self.y_vel = -np.abs(self.y_vel)
         #Wall collision for top
         if (self.y - self.radius <= self.settings.border_thickness) and \
             ((self.x > self.screen_rect.centerx + self.settings.pocket_radius) or (self.x < self.screen_rect.centerx - self.settings.pocket_radius)):
-            self.y_vel *= -1
+            self.y_vel = np.abs(self.y_vel)
 
     def detect_pocket_collision(self):
         self.x_tab = self.x - self.settings.border_thickness

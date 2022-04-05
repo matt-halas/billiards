@@ -28,7 +28,12 @@ class BilliardsGame:
         
         self.cue_ball = CueBall(self)
         self.cue = Cue(self)
-        self.ball = Ball(self, (500, 200), (200, 0, 0))
+
+        self.ball_colors = [(200, 0, 0), (0, 0, 200), (0, 200, 0)]
+        self.ball_loc = [(500, 200), (530,  170), (550, 230)]
+        self.balls = []
+        for color, loc in zip(self.ball_colors, self.ball_loc):
+            self.balls.append(Ball(self, loc, color))
 
         pygame.display.set_caption("Chilliard Billiard")
 
@@ -40,11 +45,12 @@ class BilliardsGame:
             self.draw_game()
             self.cue_ball.detect_wall_collision()
             self.cue_ball.detect_pocket_collision()
-            self.ball.detect_wall_collision()
-            self.ball.detect_pocket_collision()
             self.detect_collisions()
+            for ball in self.balls:
+                ball.detect_wall_collision()
+                ball.detect_pocket_collision()
+                ball.update_ball()
             self.cue_ball.update_cue_ball()
-            self.ball.update_ball() 
             pygame.display.flip()
     
     def check_events(self):
@@ -67,7 +73,8 @@ class BilliardsGame:
         self.draw_table()
         self.draw_pockets()
         self.cue_ball.draw_cue_ball()
-        self.ball.draw_ball()
+        for ball in self.balls:
+            ball.draw_ball()
         self.cue.draw_cue(self.cue_ball)
 
     def draw_pockets(self):
@@ -88,9 +95,14 @@ class BilliardsGame:
         pygame.draw.rect(self.screen, (27, 77, 0), self.table_rect)
     
     def detect_collisions(self):
-        if np.sqrt((self.cue_ball.x - self.ball.x)**2 + (self.cue_ball.y - self.ball.y)**2) <= 2 * self.ball.radius:
-            self.collision(self.cue_ball, self.ball)
-    
+        for ball in self.balls:
+            if np.sqrt((self.cue_ball.x - ball.x)**2 + (self.cue_ball.y - ball.y)**2) <= 2 * ball.radius:
+                self.collision(self.cue_ball, ball)
+        i = 0
+        for ball in self.balls[(i+1):]:
+            if np.sqrt((self.balls[i].x - ball.x)**2 + (self.balls[i].y - ball.y)**2) <= 2 * ball.radius:
+                self.collision(self.balls[i], ball)
+        
     def collision(self, ball_1, ball_2):
         if ball_1.x_vel !=  0:
             theta_1 = np.arctan2(ball_1.y_vel, ball_1.x_vel)
@@ -118,3 +130,4 @@ if __name__ == "__main__":
     billiards.run_game()
 
 # TODO: Add oof and related words when cue ball is sunk
+# TODO: Hide and disable cue while balls are moving
