@@ -18,8 +18,12 @@ class Ball:
     def update_ball(self):
         self.x += self.x_vel
         self.y += self.y_vel
-        self.x_vel *= 0.9998
-        self.y_vel *= 0.9998
+        if self.x_vel != 0:
+            self.x_vel -= self.x_vel / np.abs(self.x_vel) * 0.00003
+        if self.y_vel !=0:
+            self.y_vel -= self.y_vel / np.abs(self.y_vel) * 0.00003
+        self.x_vel *= 0.99998
+        self.y_vel *= 0.99998
         if self.x_vel**2 + self.y_vel**2 < 0.0001:
             self.x_vel = 0
             self.y_vel = 0

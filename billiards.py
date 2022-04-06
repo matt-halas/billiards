@@ -28,9 +28,13 @@ class BilliardsGame:
         
         self.cue_ball = CueBall(self)
         self.cue = Cue(self)
-
-        self.ball_colors = [(200, 0, 0), (0, 0, 200), (0, 200, 0)]
-        self.ball_loc = [(500, 200), (530,  170), (550, 230)]
+        # TODO: Add game control
+        self.ball_colors = [(230, 191, 0), (21, 0, 128), (255, 85, 0),
+            (119, 0, 179), (0, 128, 0), (0, 0, 0), (255, 25, 25),
+            (200, 0, 0), (0, 0, 200), (0, 200, 0)] 
+        self.ball_loc = [(500, 200), (520,  185), (520, 215),
+            (540, 200), (540,  170), (540, 230), (560, 185),
+            (560, 155), (560, 215), (560, 245)]
         self.balls = []
         for color, loc in zip(self.ball_colors, self.ball_loc):
             self.balls.append(Ball(self, loc, color))
@@ -98,10 +102,11 @@ class BilliardsGame:
         for ball in self.balls:
             if np.sqrt((self.cue_ball.x - ball.x)**2 + (self.cue_ball.y - ball.y)**2) <= 2 * ball.radius:
                 self.collision(self.cue_ball, ball)
-        i = 0
-        for ball in self.balls[(i+1):]:
-            if np.sqrt((self.balls[i].x - ball.x)**2 + (self.balls[i].y - ball.y)**2) <= 2 * ball.radius:
-                self.collision(self.balls[i], ball)
+
+        for i in range(len(self.balls) - 1):
+            for ball in self.balls[(i+1):]:
+                if np.sqrt((self.balls[i].x - ball.x)**2 + (self.balls[i].y - ball.y)**2) <= 2 * ball.radius:
+                    self.collision(self.balls[i], ball)
         
     def collision(self, ball_1, ball_2):
         if ball_1.x_vel !=  0:
@@ -131,3 +136,4 @@ if __name__ == "__main__":
 
 # TODO: Add oof and related words when cue ball is sunk
 # TODO: Hide and disable cue while balls are moving
+# TODO: Refactor code
